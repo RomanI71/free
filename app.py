@@ -389,7 +389,8 @@ def remove_background_optimized(image: PILImage.Image, quality: str) -> PILImage
 # ----------------- Routes ----------------- #
 
 # 1. 🖼️ Static Files কনফিগারেশন
-app.mount("/static", StaticFiles(directory=STATIC_FOLDER), name="static")
+app.mount("/", StaticFiles(directory=STATIC_FOLDER, html=True), name="static")
+
 
 # 2. 🏠 হোমপেজ রুট
 @app.get("/")

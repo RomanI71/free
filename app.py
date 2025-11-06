@@ -390,7 +390,25 @@ def remove_background_optimized(image: PILImage.Image, quality: str) -> PILImage
 
 # 1. 🖼️ Static Files কনফিগারেশন
 # app.mount("/", StaticFiles(directory=STATIC_FOLDER, html=True), name="static")
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
+# app.mount("/", StaticFiles(directory="static", html=True), name="static")
+# Static files mount করুন
+app.mount("/assets", StaticFiles(directory="static"), name="static")
+
+# Root route - index.html serve করুন
+@app.get("/")
+async def read_root():
+    return FileResponse("static/index.html")
+
+# Image to Vector page
+@app.get("/image-to-vector.html")
+async def image_to_vector():
+    return FileResponse("static/image-to-vector.html")
+
+# JPG to PNG page  
+@app.get("/jpg-to-png.html")
+async def jpg_to_png():
+    return FileResponse("static/jpg-to-png.html")
+
 
 
 # 2. 🏠 হোমপেজ রুট

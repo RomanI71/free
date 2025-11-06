@@ -1,0 +1,68 @@
+2025-11-06 12:41:28,632 - INFO - Removed old file: static\all-convert.html
+2025-11-06 12:41:28,632 - INFO - Removed old file: static\bg_remove.html
+2025-11-06 12:41:28,632 - INFO - Removed old file: static\collage-maker.html
+2025-11-06 12:41:28,632 - INFO - Removed old file: static\compress_tool.html
+2025-11-06 12:41:28,632 - INFO - Removed old file: static\crop.html
+2025-11-06 12:41:28,632 - INFO - Removed old file: static\flip.html
+2025-11-06 12:41:28,632 - INFO - Removed old file: static\gif-to-jpg.html
+2025-11-06 12:41:28,632 - INFO - Removed old file: static\heice-to-jpg.html
+2025-11-06 12:41:28,632 - INFO - Removed old file: static\image-to-pdf.html
+2025-11-06 12:41:28,632 - INFO - Removed old file: static\image-to-text.html
+2025-11-06 12:41:28,632 - INFO - Removed old file: static\image-to-vector.html
+2025-11-06 12:41:28,632 - INFO - Removed old file: static\join Image.html
+2025-11-06 12:41:28,632 - INFO - Removed old file: static\jpg-to-png.html
+2025-11-06 12:41:28,632 - INFO - Removed old file: static\meme-generator.html
+2025-11-06 12:41:28,648 - INFO - Removed old file: static\mosaic.html
+2025-11-06 12:41:28,648 - INFO - Removed old file: static\photoEdit.html
+2025-11-06 12:41:28,648 - INFO - Removed old file: static\png-to-jpg.html
+2025-11-06 12:41:28,648 - INFO - Removed old file: static\resize.html
+2025-11-06 12:41:28,648 - INFO - Removed old file: static\rotate Image.html
+2025-11-06 12:41:28,648 - INFO - Removed old file: static\watermark.html
+2025-11-06 12:41:28,648 - INFO - Removed old file: static\web-to-jpg.html
+2025-11-06 12:44:28,201 - WARNING - AI (rembg) not available, cannot process.
+2025-11-06 13:58:24,479 - INFO - Removed old file: removebg\nobg_0eea6f457eef44d38eccb2ce5edd3182.png
+2025-11-06 13:58:24,511 - INFO - Removed old file: static\all-convert.html
+2025-11-06 13:58:24,511 - INFO - Removed old file: static\bg_remove.html
+2025-11-06 13:58:24,511 - INFO - Removed old file: static\collage-maker.html
+2025-11-06 13:58:24,511 - INFO - Removed old file: static\compress_tool.html
+2025-11-06 13:58:24,511 - INFO - Removed old file: static\crop.html
+2025-11-06 13:58:24,511 - INFO - Removed old file: static\Flip.html
+2025-11-06 13:58:24,511 - INFO - Removed old file: static\gif-to-jpg.html
+2025-11-06 13:58:24,511 - INFO - Removed old file: static\heice-to-jpg.html
+2025-11-06 13:58:24,511 - INFO - Removed old file: static\image-to-pdf.html
+2025-11-06 13:58:24,511 - INFO - Removed old file: static\image-to-text.html
+2025-11-06 13:58:24,511 - INFO - Removed old file: static\image-to-vector.html
+2025-11-06 13:58:24,511 - INFO - Removed old file: static\join Image.html
+2025-11-06 13:58:24,511 - INFO - Removed old file: static\jpg-to-png.html
+2025-11-06 13:58:24,511 - INFO - Removed old file: static\meme-generator.html
+2025-11-06 13:58:24,511 - INFO - Removed old file: static\mosaic.html
+2025-11-06 13:58:24,511 - INFO - Removed old file: static\photoEdit.html
+2025-11-06 13:58:24,526 - INFO - Removed old file: static\png-to-jpg.html
+2025-11-06 13:58:24,526 - INFO - Removed old file: static\resize.html
+2025-11-06 13:58:24,526 - INFO - Removed old file: static\Rotate Image.html
+2025-11-06 13:58:24,526 - INFO - Removed old file: static\watermark.html
+2025-11-06 13:58:24,526 - INFO - Removed old file: static\web-to-jpg.html
+2025-11-06 15:03:12,538 - WARNING - AI (rembg) not available, cannot process.
+2025-11-06 15:04:45,766 - WARNING - AI (rembg) not available, cannot process.
+2025-11-06 16:04:31,742 - INFO - Removed old file: removebg\nobg_555ec0163acc48b885842182cb4bd4dc.png
+2025-11-06 16:04:31,742 - INFO - Removed old file: static\all-convert.html
+2025-11-06 16:04:31,742 - INFO - Removed old file: static\bg_remove.html
+2025-11-06 16:04:31,742 - INFO - Removed old file: static\collage-maker.html
+2025-11-06 16:04:31,742 - INFO - Removed old file: static\compress_tool.html
+2025-11-06 16:04:31,742 - INFO - Removed old file: static\crop.html
+2025-11-06 16:04:31,742 - INFO - Removed old file: static\Flip.html
+2025-11-06 16:04:31,742 - INFO - Removed old file: static\gif-to-jpg.html
+2025-11-06 16:04:31,742 - INFO - Removed old file: static\heice-to-jpg.html
+2025-11-06 16:04:31,742 - INFO - Removed old file: static\image-to-pdf.html
+2025-11-06 16:04:31,742 - INFO - Removed old file: static\image-to-text.html
+2025-11-06 16:04:31,742 - INFO - Removed old file: static\image-to-vector.html
+2025-11-06 16:04:31,742 - INFO - Removed old file: static\join Image.html
+2025-11-06 16:04:31,742 - INFO - Removed old file: static\jpg-to-png.html
+2025-11-06 16:04:31,742 - INFO - Removed old file: static\meme-generator.html
+2025-11-06 16:04:31,742 - INFO - Removed old file: static\mosaic.html
+2025-11-06 16:04:31,742 - INFO - Removed old file: static\photoEdit.html
+2025-11-06 16:04:31,742 - INFO - Removed old file: static\png-to-jpg.html
+2025-11-06 16:04:31,742 - INFO - Removed old file: static\resize.html
+2025-11-06 16:04:31,742 - INFO - Removed old file: static\Rotate Image.html
+2025-11-06 16:04:31,742 - INFO - Removed old file: static\watermark.html
+2025-11-06 16:04:31,742 - INFO - Removed old file: static\web-to-jpg.html

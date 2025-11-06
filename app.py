@@ -18,6 +18,7 @@ import logging.handlers
 import traceback
 import base64 # Added for SVG embedding
 import re
+# from fastapi.responses import FileResponse
 
 # -------- AI Models -------- #
 # The following block is commented out, so we define REMBG_AVAILABLE manually.
@@ -58,10 +59,10 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'bmp', 'webp', 'gif'}
 app = FastAPI(title="AI Image Processing API (BG Removal & SVG Converter)")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],        # সব origin allow করবে (local development এর জন্য ঠিক)
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
 )
 
 # ----------------------------------------------------
@@ -399,7 +400,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # Root route - index.html serve করুন
 @app.get("/")
 async def read_root():
-    return FileResponse("static/index.html")  # Capital I
+    return FileResponse("static/index.html")
 
 @app.get("/image-to-vector.html")
 async def image_to_vector():

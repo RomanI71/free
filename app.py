@@ -399,7 +399,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # Root route - index.html serve করুন
 @app.get("/")
 async def read_root():
-    return FileResponse("static/Index.html")  # Capital I
+    return FileResponse("static/index.html")  # Capital I
 
 @app.get("/image-to-vector.html")
 async def image_to_vector():

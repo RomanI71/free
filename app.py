@@ -392,34 +392,44 @@ def remove_background_optimized(image: PILImage.Image, quality: str) -> PILImage
 # app.mount("/", StaticFiles(directory=STATIC_FOLDER, html=True), name="static")
 # app.mount("/", StaticFiles(directory="static", html=True), name="static")
 # Static files mount করুন
-app.mount("/assets", StaticFiles(directory="static"), name="static")
-# app.mount("/static", StaticFiles(directory="static"), name="static")
+# app.mount("/assets", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 
 # Root route - index.html serve করুন
 @app.get("/")
 async def read_root():
-    return FileResponse("static/index.html")
+    return FileResponse("static/Index.html")  # Capital I
 
-# Image to Vector page
 @app.get("/image-to-vector.html")
 async def image_to_vector():
-    return FileResponse("static/image-to-vector.html")
+    return FileResponse("static/image-to-vector.html")  # small i
 
-# JPG to PNG page  
 @app.get("/jpg-to-png.html")
 async def jpg_to_png():
-    return FileResponse("static/jpg-to-png.html")
+    return FileResponse("static/jpg-to-png.html")  # small j
 
+# Add routes for other HTML files you have
+@app.get("/bg_remove.html")
+async def bg_remove():
+    return FileResponse("static/bg_remove.html")
 
+@app.get("/compress_tool.html")
+async def compress_tool():
+    return FileResponse("static/compress_tool.html")
 
-# 2. 🏠 হোমপেজ রুট
-@app.get("/")
-async def root():
-    # নিশ্চিত করুন আপনার HTML ফাইলটির নাম Index.html (কেস-সেনসিটিভ)
-    index_path = os.path.join(STATIC_FOLDER, "Index.html")
-    if not os.path.exists(index_path):
-        return JSONResponse({"error": "Index.html not found in static folder"}, status_code=404)
-    return FileResponse(index_path)
+@app.get("/image-to-pdf.html")
+async def image_to_pdf():
+    return FileResponse("static/image-to-pdf.html")
+
+# # 2. 🏠 হোমপেজ রুট
+# @app.get("/")
+# async def root():
+#     # নিশ্চিত করুন আপনার HTML ফাইলটির নাম Index.html (কেস-সেনসিটিভ)
+#     index_path = os.path.join(STATIC_FOLDER, "Index.html")
+#     if not os.path.exists(index_path):
+#         return JSONResponse({"error": "Index.html not found in static folder"}, status_code=404)
+#     return FileResponse(index_path)
 
 # 3. API রুট স্ট্যাটাস
 @app.get("/api-status") # Renamed from "/" to avoid conflict with FileResponse on "/"

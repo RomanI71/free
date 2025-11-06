@@ -422,7 +422,82 @@ async def compress_tool():
 @app.get("/image-to-pdf.html")
 async def image_to_pdf():
     return FileResponse("static/image-to-pdf.html")
+@app.get("/all-convert.html")
+async def all_convert():
+    return FileResponse("static/all-convert.html")
 
+@app.get("/bg_remove.html")
+async def bg_remove():
+    return FileResponse("static/bg_remove.html")
+
+@app.get("/collage-maker.html")
+async def collage_maker():
+    return FileResponse("static/collage-maker.html")
+
+@app.get("/compress_tool.html")
+async def compress_tool():
+    return FileResponse("static/compress_tool.html")
+
+@app.get("/crop.html")
+async def crop_tool():
+    return FileResponse("static/crop.html")
+
+@app.get("/flip.html")
+async def flip_tool():
+    return FileResponse("static/flip.html")
+
+@app.get("/gif-to-jpg.html")
+async def gif_to_jpg():
+    return FileResponse("static/gif-to-jpg.html")
+
+@app.get("/heice-to-jpg.html")
+async def heice_to_jpg():
+    return FileResponse("static/heice-to-jpg.html")
+
+@app.get("/image-to-pdf.html")
+async def image_to_pdf():
+    return FileResponse("static/image-to-pdf.html")
+
+@app.get("/image-to-text.html")
+async def image_to_text():
+    return FileResponse("static/image-to-text.html")
+
+@app.get("/image-to-vector.html")
+async def image_to_vector():
+    return FileResponse("static/image-to-vector.html")
+
+@app.get("/join-image.html")
+async def join_image():
+    return FileResponse("static/join-image.html")
+
+@app.get("/jpg-to-png.html")
+async def jpg_to_png():
+    return FileResponse("static/jpg-to-png.html")
+
+@app.get("/meme-generator.html")
+async def meme_generator():
+    return FileResponse("static/meme-generator.html")
+
+@app.get("/mosaic.html")
+async def mosaic_tool():
+    return FileResponse("static/mosaic.html")
+
+@app.get("/photoEdit.html")
+async def photo_edit():
+    return FileResponse("static/photoEdit.html")
+
+@app.get("/png-to-jpg.html")
+async def png_to_jpg():
+    return FileResponse("static/png-to-jpg.html")
+
+@app.get("/resize.html")
+async def resize_tool():
+    # এটিই সেই রুট যা 'Resize IMAGE' সমস্যার সমাধান করবে
+    return FileResponse("static/resize.html") 
+
+@app.get("/rotate-image.html")
+async def rotate_image():
+    return FileResponse("static/rotate-image.html")
 # # 2. 🏠 হোমপেজ রুট
 # @app.get("/")
 # async def root():

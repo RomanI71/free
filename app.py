@@ -473,9 +473,9 @@ async def image_to_vector():
 async def join_image():
     return FileResponse("static/join-image.html")
 
-# @app.get("/join-image.html")
-# async def join_image_page():
-#     return FileResponse("static/join-image.html")
+@app.get("/join-image.html")
+async def join_image_page():
+    return FileResponse("static/join-image.html")
 
 @app.get("/jpg-to-png.html")
 async def jpg_to_png():

@@ -502,7 +502,7 @@ async def watermark_page():
     return FileResponse("static/watermark.html")
 
 @app.get("/web-to-jpg.html")
-async def web_to_jpg_page():
+async def web_to_jpg():
     return FileResponse("static/web-to-jpg.html")
 
 @app.get("/resize.html")

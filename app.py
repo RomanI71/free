@@ -422,9 +422,9 @@ async def jpg_to_png():
 async def bg_remove():
     return FileResponse("static/bg_remove.html")
 
-@app.get("/compress_tool.html")
-async def compress_tool():
-    return FileResponse("static/compress_tool.html")
+# @app.get("/compress_tool.html")
+# async def compress_tool():
+#     return FileResponse("static/compress_tool.html")
 
 @app.get("/image-to-pdf.html")
 async def image_to_pdf():
@@ -441,9 +441,9 @@ async def bg_remove():
 async def collage_maker():
     return FileResponse("static/collage-maker.html")
 
-@app.get("/compress_tool.html")
-async def compress_tool():
-    return FileResponse("static/compress_tool.html")
+# @app.get("/compress_tool.html")
+# async def compress_tool():
+#     return FileResponse("static/compress_tool.html")
 
 @app.get("/crop.html")
 async def crop_tool():

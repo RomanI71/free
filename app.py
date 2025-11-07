@@ -7,6 +7,7 @@ from fastapi.responses import FileResponse
 from fastapi import FastAPI
 # PIL imports updated to include necessary modules from vector.py
 from PIL import Image, ImageDraw, ImageFilter, ImageOps, Image as PILImage 
+from PIL import Image
 import numpy as np
 import cv2
 import io
@@ -422,10 +423,6 @@ async def jpg_to_png():
 async def bg_remove():
     return FileResponse("static/bg_remove.html")
 
-# @app.get("/compress_tool.html")
-# async def compress_tool():
-#     return FileResponse("static/compress_tool.html")
-
 @app.get("/image-to-pdf.html")
 async def image_to_pdf():
     return FileResponse("static/image-to-pdf.html")
@@ -440,10 +437,6 @@ async def bg_remove():
 @app.get("/collage-maker.html")
 async def collage_maker():
     return FileResponse("static/collage-maker.html")
-
-# @app.get("/compress_tool.html")
-# async def compress_tool():
-#     return FileResponse("static/compress_tool.html")
 
 @app.get("/crop.html")
 async def crop_tool():
@@ -473,8 +466,12 @@ async def image_to_text():
 async def image_to_vector():
     return FileResponse("static/image-to-vector.html")
 
+# @app.get("/join-image.html")
+# async def join_image():
+#     return FileResponse("static/join-image.html")
+
 @app.get("/join-image.html")
-async def join_image():
+async def join_image_page():
     return FileResponse("static/join-image.html")
 
 @app.get("/jpg-to-png.html")

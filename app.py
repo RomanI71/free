@@ -412,7 +412,7 @@ async def index_page():
     return FileResponse(file_path)
 
 @app.get("/compress_tool")
-@app.get("/compress_tool.html")  # <-- এই লাইনটা যোগ করো
+@app.get("/compress_tool.html")
 async def compress_tool():
     return FileResponse("static/compress_tool.html")
 

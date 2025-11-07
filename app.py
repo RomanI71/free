@@ -498,7 +498,7 @@ async def png_to_jpg():
     return FileResponse("static/png-to-jpg.html")
 
 @app.get("/watermark.html")
-async def png_to_jpg():
+async def watermark():
     return FileResponse("static/watermark.html")
 
 @app.get("/resize.html")

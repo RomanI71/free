@@ -408,7 +408,8 @@ async def read_root():
 @app.get("/")
 @app.get("/index.html")
 async def index_page():
-    return FileResponse("static/index.html")
+    file_path = os.path.join(os.path.dirname(__file__), "static", "index.html")
+    return FileResponse(file_path)
 
 @app.get("/compress_tool")
 @app.get("/compress_tool.html")  # <-- এই লাইনটা যোগ করো

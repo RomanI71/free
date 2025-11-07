@@ -407,7 +407,7 @@ async def read_root():
 
 
 @app.get("/compress_tool")
-async def get_compress_tool():
+async def compress_tool():
     return FileResponse("static/compress_tool.html")
 
 @app.get("/image-to-vector.html")

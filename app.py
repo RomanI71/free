@@ -401,9 +401,9 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 # Root route - index.html serve করুন
-# @app.get("/")
-# async def read_root():
-#     return FileResponse("static/index.html")
+@app.get("/")
+async def read_root():
+    return FileResponse("static/index.html")
 
 @app.get("/")
 @app.get("/index.html")

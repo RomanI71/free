@@ -29,3 +29,51 @@ Thumbs.db
 
 # কিন্তু static folder delete হবে না
 !static/
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.env
+.env.*
+*.db
+*.sqlite3
+*.log
+
+# ---- Virtual environment ----
+venv/
+env/
+.venv/
+
+# ---- OS specific ----
+.DS_Store
+Thumbs.db
+
+# ---- IDE / Editor ----
+.vscode/
+.idea/
+*.swp
+
+# ---- Build / Cache ----
+dist/
+build/
+.cache/
+.pytest_cache/
+
+# ---- Node (if you use frontend builds) ----
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ---- Do NOT ignore static or templates ----
+# static/
+# templates/
+
+# ---- Railway / Docker ----
+*.tar
+*.bak
+

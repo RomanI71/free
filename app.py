@@ -405,10 +405,14 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 async def read_root():
     return FileResponse("static/index.html")
 
-@app.get("/compress_tool.html")
+@app.get("/compress_tool")
+@app.get("/compress_tool.html")  # <-- এই লাইনটা যোগ করো
 async def compress_tool():
     return FileResponse("static/compress_tool.html")
 
+if __name__ == "__main__":
+    uvicorn.run(app, host="127.0.0.1", port=8000)
+    
 @app.get("/image-to-vector.html")
 async def image_to_vector():
     return FileResponse("static/image-to-vector.html")  # small i

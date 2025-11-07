@@ -445,9 +445,9 @@ async def collage_maker():
 async def crop_tool():
     return FileResponse("static/crop.html")
 
-@app.get("/flip.html")
+@app.get("/flip-image.html")
 async def flip_tool():
-    return FileResponse("static/flip.html")
+    return FileResponse("static/flip-image.html")
 
 @app.get("/gif-to-jpg.html")
 async def gif_to_jpg():

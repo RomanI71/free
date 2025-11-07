@@ -3,6 +3,8 @@ from fastapi import FastAPI, UploadFile, File, HTTPException, Form
 from fastapi.middleware.cors import CORSMiddleware
 # --- 💡 NEW IMPORT: StaticFiles for serving static assets ---
 from fastapi.staticfiles import StaticFiles 
+from fastapi.responses import FileResponse
+from fastapi import FastAPI
 # PIL imports updated to include necessary modules from vector.py
 from PIL import Image, ImageDraw, ImageFilter, ImageOps, Image as PILImage 
 import numpy as np
@@ -401,6 +403,11 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 @app.get("/")
 async def read_root():
     return FileResponse("static/index.html")
+
+
+@app.get("/compress_tool")
+async def get_compress_tool():
+    return FileResponse("static/compress_tool.html")
 
 @app.get("/image-to-vector.html")
 async def image_to_vector():

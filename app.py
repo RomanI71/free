@@ -497,6 +497,10 @@ async def photo_edit():
 async def png_to_jpg():
     return FileResponse("static/png-to-jpg.html")
 
+@app.get("/watermark.html")
+async def png_to_jpg():
+    return FileResponse("static/watermark.html")
+
 @app.get("/resize.html")
 async def resize_tool():
     # এটিই সেই রুট যা 'Resize IMAGE' সমস্যার সমাধান করবে

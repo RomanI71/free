@@ -405,6 +405,11 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 async def read_root():
     return FileResponse("static/index.html")
 
+@app.get("/")
+@app.get("/index.html")
+async def index_page():
+    return FileResponse("static/index.html")
+
 @app.get("/compress_tool")
 @app.get("/compress_tool.html")  # <-- এই লাইনটা যোগ করো
 async def compress_tool():

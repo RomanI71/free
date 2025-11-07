@@ -445,9 +445,11 @@ async def collage_maker():
 async def crop_tool():
     return FileResponse("static/crop.html")
 
-@app.get("/flip-image.html")
+@app.get("/flip-image")
+@app.get("/flip-image.html")  # optional, যাতে দুই URL-ই কাজ করে
 async def flip_tool():
-    return FileResponse("static/flip-image.html")
+    file_path = os.path.join(os.path.dirname(__file__), "static", "flip-image.html")
+    return FileResponse(file_path)
 
 @app.get("/gif-to-jpg.html")
 async def gif_to_jpg():

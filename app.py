@@ -412,7 +412,7 @@ async def compress_tool():
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)
-    
+
 @app.get("/image-to-vector.html")
 async def image_to_vector():
     return FileResponse("static/image-to-vector.html")  # small i
@@ -469,13 +469,13 @@ async def image_to_text():
 async def image_to_vector():
     return FileResponse("static/image-to-vector.html")
 
-# @app.get("/join-image.html")
-# async def join_image():
-#     return FileResponse("static/join-image.html")
-
 @app.get("/join-image.html")
-async def join_image_page():
+async def join_image():
     return FileResponse("static/join-image.html")
+
+# @app.get("/join-image.html")
+# async def join_image_page():
+#     return FileResponse("static/join-image.html")
 
 @app.get("/jpg-to-png.html")
 async def jpg_to_png():

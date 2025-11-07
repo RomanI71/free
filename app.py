@@ -439,9 +439,9 @@ async def image_to_pdf():
 async def all_convert():
     return FileResponse("static/all-convert.html")
 
-@app.get("/bg_remove.html")
+@app.get("/bg-remove.html")
 async def bg_remove():
-    return FileResponse("static/bg_remove.html")
+    return FileResponse("static/bg-remove.html")
 
 @app.get("/collage-maker.html")
 async def collage_maker():
@@ -497,9 +497,9 @@ async def meme_generator():
 async def mosaic_tool():
     return FileResponse("static/mosaic.html")
 
-@app.get("/photoEdit.html")
+@app.get("/photo-edit.html")  # <-- lowercase + hyphen preferred
 async def photo_edit():
-    return FileResponse("static/photoEdit.html")
+    return FileResponse("static/photo-edit.html")
 
 @app.get("/png-to-jpg.html")
 async def png_to_jpg():
@@ -515,8 +515,7 @@ async def web_to_jpg():
 
 @app.get("/resize.html")
 async def resize_tool():
-    # এটিই সেই রুট যা 'Resize IMAGE' সমস্যার সমাধান করবে
-    return FileResponse("static/resize.html") 
+    return FileResponse("static/resize.html")
 
 @app.get("/rotate-image.html")
 async def rotate_image():

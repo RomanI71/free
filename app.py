@@ -405,8 +405,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 async def read_root():
     return FileResponse("static/index.html")
 
-
-@app.get("/compress_tool")
+@app.get("/compress_tool.html")
 async def compress_tool():
     return FileResponse("static/compress_tool.html")
 

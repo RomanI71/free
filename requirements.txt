@@ -6,4 +6,7 @@ opencv-python-headless
 rembg
 python-multipart
 aiofiles
-scikit-learn
+scikit-
+psutil
+
+

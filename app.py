@@ -513,7 +513,9 @@ async def meme_generator():
 async def mosaic_tool():
     return FileResponse("static/mosaic.html")
 
-@app.get("/photo-edit.html")
+@app.get("/photoEdit.html")
+@app.get("/photo-edit.html") 
+@app.get("/photo-edit")
 async def photo_edit():
     return FileResponse("static/photo-edit.html")
 

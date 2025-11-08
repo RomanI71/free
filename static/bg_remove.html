@@ -6,7 +6,6 @@
   <title>Remove Background — iLoveIMG Clone</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* আপনার existing CSS একই থাকবে */
     :root{--bg:#f8fafc;--card:#fff;--accent:#3498db;--muted:#6b7280;--success:#10b981;--warning:#f59e0b;--error:#ef4444}
     *{box-sizing:border-box}
     body{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial;background:var(--bg);margin:0;color:#0f172a}
@@ -200,10 +199,10 @@ let currentFile = null;
 let currentQuality = 'high';
 let isProcessing = false;
 
-// ✅ FIXED: Railway Backend URL
+// ✅ FIXED: Railway Backend URL - Hardcoded
 const BACKEND_URL = "https://free-production-3e3c.up.railway.app";
 
-console.log('🚀 Backend URL:', BACKEND_URL);
+console.log('🚀 Backend URL set to:', BACKEND_URL);
 
 // Quality selection
 qualityCards.forEach(card => {
@@ -338,7 +337,7 @@ function simulateProgress() {
   return interval;
 }
 
-// ✅ Enhanced Connection Check with better error handling
+// ✅ Enhanced Connection Check
 async function checkBackendConnection() {
   try {
     console.log('🔍 Checking backend connection to:', BACKEND_URL);
@@ -347,9 +346,7 @@ async function checkBackendConnection() {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
-      },
-      // Add timeout
-      signal: AbortSignal.timeout(10000)
+      }
     });
 
     console.log('📡 Response status:', response.status);
@@ -401,7 +398,7 @@ window.addEventListener('load', async () => {
       <strong>⚠️ Connection Failed:</strong><br>
       • URL: ${BACKEND_URL}<br>
       • Error: ${result.error}<br>
-      • Make sure backend server is running on Railway
+      • Check Railway dashboard for server status
     `;
     status.parentNode.appendChild(helpMsg);
   }
@@ -447,9 +444,7 @@ removeBgBtn.addEventListener('click', async () => {
     
     const res = await fetch(`${BACKEND_URL}/remove-bg`, {
       method: 'POST',
-      body: formData,
-      // Add timeout
-      signal: AbortSignal.timeout(60000)
+      body: formData
     });
 
     console.log('📥 Response status:', res.status);
@@ -474,7 +469,7 @@ removeBgBtn.addEventListener('click', async () => {
       aiStatus.textContent = 'Complete!';
       updateStatus('ready', 'Processing complete! ✅');
       
-      // ✅ FIXED: Handle both full URLs and relative paths from backend
+      // Handle both full URLs and relative paths from backend
       let previewUrl = data.previewUrl;
       let downloadUrl = data.downloadUrl;
       
@@ -507,9 +502,7 @@ removeBgBtn.addEventListener('click', async () => {
     console.error('❌ Processing error:', err);
     clearInterval(progressInterval);
     
-    if (err.name === 'AbortError' || err.name === 'TimeoutError') {
-      showError('Request timeout. Server is taking too long to respond.');
-    } else if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
+    if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
       showError('Server not responding. Check backend connection and CORS settings.');
     } else {
       showError(err.message);

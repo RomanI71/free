@@ -199,7 +199,7 @@ let currentFile = null;
 let currentQuality = 'high';
 let isProcessing = false;
 
-// ✅ FIXED: Railway Backend URL - Hardcoded
+// ✅ FIXED: Railway Backend URL
 const BACKEND_URL = "https://free-production-8eca.up.railway.app";
 
 console.log('🚀 Backend URL set to:', BACKEND_URL);
@@ -337,12 +337,13 @@ function simulateProgress() {
   return interval;
 }
 
-// ✅ Enhanced Connection Check
+// ✅ FIXED: Connection Check - Correct API endpoint
 async function checkBackendConnection() {
   try {
     console.log('🔍 Checking backend connection to:', BACKEND_URL);
     
-    const response = await fetch(`${BACKEND_URL}/`, {
+    // ✅ Use the correct API endpoint that exists
+    const response = await fetch(`${BACKEND_URL}/api/test`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -350,11 +351,20 @@ async function checkBackendConnection() {
     });
 
     console.log('📡 Response status:', response.status);
+    console.log('📋 Content-Type:', response.headers.get('content-type'));
     
     if (response.ok) {
-      const data = await response.json();
-      console.log('✅ Backend connected:', data);
-      return { success: true, data: data };
+      // ✅ Check if response is JSON
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const data = await response.json();
+        console.log('✅ Backend connected:', data);
+        return { success: true, data: data };
+      } else {
+        const text = await response.text();
+        console.error('❌ Received HTML instead of JSON:', text.substring(0, 100));
+        return { success: false, error: 'Server returned HTML instead of JSON' };
+      }
     } else {
       console.error('❌ Backend response error:', response.status);
       return { success: false, error: `HTTP ${response.status}` };
@@ -404,7 +414,7 @@ window.addEventListener('load', async () => {
   }
 });
 
-// Remove Background Function - Updated for Railway
+// ✅ FIXED: Remove Background Function - Use correct endpoint
 removeBgBtn.addEventListener('click', async () => {
   if (!currentFile) {
     showError('No image selected');
@@ -423,7 +433,7 @@ removeBgBtn.addEventListener('click', async () => {
 
   const bgColor = bgMode.value === 'custom' ? bgColorPicker.value : bgMode.value;
   const formData = new FormData();
-  formData.append('image', currentFile);
+  formData.append('file', currentFile); // ✅ Changed from 'image' to 'file'
   formData.append('background_color', bgColor);
   formData.append('quality', currentQuality);
 
@@ -439,15 +449,17 @@ removeBgBtn.addEventListener('click', async () => {
       if (isProcessing) aiStatus.textContent = 'Removing background...';
     }, 2500);
 
-    console.log('📤 Sending request to:', `${BACKEND_URL}/remove-bg`);
+    // ✅ FIXED: Use correct endpoint that matches your backend
+    console.log('📤 Sending request to:', `${BACKEND_URL}/api/remove-background`);
     console.log('📦 File details:', currentFile.name, currentFile.size, 'bytes');
     
-    const res = await fetch(`${BACKEND_URL}/remove-bg`, {
+    const res = await fetch(`${BACKEND_URL}/api/remove-background`, {
       method: 'POST',
       body: formData
     });
 
     console.log('📥 Response status:', res.status);
+    console.log('📋 Response headers:', res.headers.get('content-type'));
     clearInterval(progressInterval);
 
     if (!res.ok) {
@@ -461,32 +473,37 @@ removeBgBtn.addEventListener('click', async () => {
       throw new Error(`Server error: ${res.status} - ${errorText}`);
     }
 
+    // ✅ Check if response is JSON
+    const contentType = res.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      const text = await res.text();
+      console.error('❌ Server returned non-JSON:', text.substring(0, 100));
+      throw new Error('Server returned invalid response format');
+    }
+
     const data = await res.json();
     console.log('✅ Success response:', data);
 
-    if (data.success) {
+    if (data.status === 'success' || data.success) {
       bar.style.width = '100%';
       aiStatus.textContent = 'Complete!';
       updateStatus('ready', 'Processing complete! ✅');
       
-      // Handle both full URLs and relative paths from backend
-      let previewUrl = data.previewUrl;
-      let downloadUrl = data.downloadUrl;
-      
-      // If URLs are relative, prepend backend URL
-      if (previewUrl && !previewUrl.startsWith('http')) {
-        previewUrl = `${BACKEND_URL}${previewUrl.startsWith('/') ? '' : '/'}${previewUrl}`;
+      // Handle download URL
+      if (data.download_url) {
+        let downloadUrl = data.download_url;
+        if (!downloadUrl.startsWith('http')) {
+          downloadUrl = `${BACKEND_URL}${downloadUrl.startsWith('/') ? '' : '/'}${downloadUrl}`;
+        }
+        downloadLink.href = downloadUrl;
+      } else if (data.image_url) {
+        let downloadUrl = data.image_url;
+        if (!downloadUrl.startsWith('http')) {
+          downloadUrl = `${BACKEND_URL}${downloadUrl.startsWith('/') ? '' : '/'}${downloadUrl}`;
+        }
+        downloadLink.href = downloadUrl;
       }
-      if (downloadUrl && !downloadUrl.startsWith('http')) {
-        downloadUrl = `${BACKEND_URL}${downloadUrl.startsWith('/') ? '' : '/'}${downloadUrl}`;
-      }
       
-      console.log('🖼️ Final Preview URL:', previewUrl);
-      console.log('📥 Final Download URL:', downloadUrl);
-      
-      previewImg.src = previewUrl;
-      updatePreviewBg();
-      downloadLink.href = downloadUrl;
       outName.textContent = data.filename || 'output.png';
       
       const format = data.format || 'PNG';
@@ -495,8 +512,17 @@ removeBgBtn.addEventListener('click', async () => {
       
       downloadWrap.style.display = 'block';
       
+      // Update preview if available
+      if (data.preview_url) {
+        let previewUrl = data.preview_url;
+        if (!previewUrl.startsWith('http')) {
+          previewUrl = `${BACKEND_URL}${previewUrl.startsWith('/') ? '' : '/'}${previewUrl}`;
+        }
+        previewImg.src = previewUrl;
+      }
+      
     } else {
-      throw new Error(data.error || 'Failed to remove background');
+      throw new Error(data.message || data.error || 'Failed to remove background');
     }
   } catch (err) {
     console.error('❌ Processing error:', err);

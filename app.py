@@ -742,6 +742,20 @@ async def remove_bg(
         logger.error(f"Remove BG error: {traceback.format_exc()}")
         return JSONResponse({"error": f"Processing failed: {str(e)}"}, status_code=500)
 
+
+# ✅ Alias route (function-এর বাইরে)
+@app.post("/api/remove-background")
+async def alias_remove_background(
+    image: UploadFile = File(...),
+    background_color: str = Form("transparent"),
+    quality: str = Form("high")
+):
+    """
+    Alias route to maintain compatibility with older frontend URLs.
+    Redirects /api/remove-background to /remove-bg internally.
+    """
+    return await remove_bg(image=image, background_color=background_color, quality=quality)
+
 # ----------------- Background Cleanup ----------------- #
 def cleanup_files():
     while True:
@@ -779,6 +793,12 @@ if __name__ == "__main__":
     print("🌐 Server URL: http://localhost:8000")
     print("=" * 60)
     
-   # ----------------- Run ----------------- #
+# ----------------- Run ----------------- #
 if __name__ == "__main__":
-    uvicorn.run("app:app", host="0.0.0.0", port=8000)
+    import os
+    # Railway-এর দেওয়া PORT ভ্যারিয়েবলটি ব্যবহার করুন। যদি না পাওয়া যায়, তবে 8000 ব্যবহার করুন।
+    port = int(os.environ.get("PORT", 8000))
+    print(f"🌐 Server running on port: {port}")
+    
+    # uvicorn.run ফাংশনে এই পরিবর্তিত 'port' ভ্যারিয়েবলটি ব্যবহার করুন
+    uvicorn.run("app:app", host="0.0.0.0", port=port)

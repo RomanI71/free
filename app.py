@@ -432,7 +432,8 @@ def remove_background_optimized(image: PILImage.Image, quality: str) -> PILImage
         return image.convert("RGBA")
 
 # ----------------- Routes ----------------- #
-
+current_dir = os.path.dirname(os.path.abspath(__file__))
+static_dir = os.path.join(current_dir, "static")
 # 1. 🖼️ Static Files কনফিগারেশন
 app.mount("/static", StaticFiles(directory="static"), name="static")
 

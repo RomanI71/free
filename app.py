@@ -111,7 +111,7 @@ memory_manager = MemoryManager(cleanup_interval=300)
 app = FastAPI(title="AI Image Processing API (BG Removal & SVG Converter)")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://free-production-8eca.up.railway.app"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

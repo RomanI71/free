@@ -9,5 +9,8 @@ aiofiles
 scikit-image==0.21.0
 psutil
 rembg==2.0.50
+anyio
+starlette
+
 
 

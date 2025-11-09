@@ -472,9 +472,9 @@ async def image_to_pdf():
 async def all_convert():
     return FileResponse("static/all-convert.html")
 
-@app.get("/bg-remove.html")
-async def bg_remove():
-    return FileResponse("static/bg-remove.html")
+# @app.get("/bg-remove.html")
+# async def bg_remove():
+#     return FileResponse("static/bg-remove.html")
 
 @app.get("/collage-maker.html")
 async def collage_maker():

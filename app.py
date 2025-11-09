@@ -395,41 +395,56 @@ def remove_background_optimized(image: PILImage.Image, quality: str) -> PILImage
     quality='standard' skips post-processing for speed.
     """
     try:
-        # Use AI if available, otherwise use fallback
+        # ✅ Ensure rembg AI model cache works inside Railway container
+        import os
+        os.environ["U2NET_HOME"] = "/tmp/u2net"
+        os.makedirs("/tmp/u2net", exist_ok=True)
+
+        # ✅ Use AI if available, otherwise fallback
         if REMBG_AVAILABLE:
             buf = io.BytesIO()
             image.convert("RGB").save(buf, format="PNG", quality=95)
             img_bytes = buf.getvalue()
             
+            # ⚙️ Run rembg — remove 'session_name' for better auto model detection
             result_bytes = rembg_remove(
                 img_bytes, 
-                session_name='u2net_human_seg', 
                 post_process_mask=True
             )
-            result_img = PILImage.open(io.BytesIO(result_bytes)).convert("RGBA")
+
+            # ✅ Safety check: rembg output must not be empty
+            if not result_bytes or len(result_bytes) < 1000:
+                raise RuntimeError("rembg returned empty or invalid bytes")
+
+            # ✅ Open image safely and ensure RGBA
+            result_img = PILImage.open(io.BytesIO(result_bytes))
+            if result_img.mode != "RGBA":
+                result_img = result_img.convert("RGBA")
+
         else:
-            # Use fallback method
+            # ⚠️ Use fallback method if AI not available
             logger.info("Using fallback background removal (AI not available)")
             result_img = fallback_background_remove(image)
         
-        # Conditional Post-Processing Pipeline (Refine Edge)
+        # ✅ Conditional Post-Processing Pipeline (Refine Edge)
         if quality.lower() == 'high':
             logger.info("Applying advanced post-processing (Refine Edge).")
-            result_img = refine_mask_smoothing(result_img)     
-            result_img = decontaminate_foreground(result_img) 
-            result_img = clean_dark_artifacts(result_img)       
+            result_img = refine_mask_smoothing(result_img)
+            result_img = decontaminate_foreground(result_img)
+            result_img = clean_dark_artifacts(result_img)
         else:
             logger.info("Skipping advanced post-processing (Standard quality).")
         
-        # Final Crop (Applied to both qualities)
-        result_img = crop_to_subject(result_img)            
+        # ✅ Final Crop
+        result_img = crop_to_subject(result_img)
         
         return result_img
-        
+
     except Exception as e:
         logger.error(f"Background removal failed: {e}")
         logger.error(traceback.format_exc())
         return image.convert("RGBA")
+
 
 # ----------------- Routes ----------------- #
 current_dir = os.path.dirname(os.path.abspath(__file__))

@@ -459,6 +459,11 @@ static_dir = os.path.join(current_dir, "static")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Root route - index.html serve করুন
+
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
+
 @app.get("/")
 async def read_root():
     return FileResponse("static/index.html")

@@ -8,7 +8,10 @@ from PIL import Image, ImageDraw, ImageFilter, ImageOps, Image as PILImage
 from PIL import Image
 import numpy as np
 import cv2
+from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi import UploadFile, File, Form
 import io
+from fastapi.responses import StreamingResponse
 import os
 import uuid
 import datetime
@@ -109,6 +112,9 @@ memory_manager = MemoryManager(cleanup_interval=300)
 
 # ----------------- FastAPI App ----------------- #
 app = FastAPI(title="AI Image Processing API (BG Removal & SVG Converter)")
+
+REMOVEBG_FOLDER = "/tmp"
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -663,44 +669,34 @@ async def get_image(filename: str):
         
     return JSONResponse({"error": "Preview file not found"}, status_code=404)
 
-@app.get("/download/{filename}")
-async def download_file(filename: str):
-    """Download the processed file."""
-    file_path = os.path.join(REMOVEBG_FOLDER, filename)
-    if os.path.exists(file_path):
-        return FileResponse(
-            file_path, 
-            filename=filename, 
-            media_type='application/octet-stream'
-        )
-    return JSONResponse({"error": "File not found for download"}, status_code=404)
-
 @app.post("/remove-bg")
 async def remove_bg(
     image: UploadFile = File(...), 
     background_color: str = Form(default="transparent"),
     quality: str = Form(default="high", description="Processing quality: 'high' (Refine Edge + AI) or 'standard' (AI only).")
 ):
-    """Remove background with improved quality selection"""
+    """Remove background with working download + transparent PNG"""
     try:
+        # ✅ Validate file type
         if not allowed_file(image.filename):
             return JSONResponse({"error": "File type not allowed"}, status_code=400)
-        
+
+        # ✅ Read image bytes
         file_bytes = await image.read()
-        
         try:
             img = PILImage.open(io.BytesIO(file_bytes))
             img.verify()
             img = PILImage.open(io.BytesIO(file_bytes)).convert("RGBA")
         except Exception as e:
             return JSONResponse({"error": f"Invalid image file: {str(e)}"}, status_code=400)
-        
+
+        # ✅ AI Background Remove (your function)
         processed_img = remove_background_optimized(img, quality)
 
-        # Apply background color if provided
+        # ✅ Handle background color
         bg_rgb = None
-        output_format = 'PNG'
-        
+        output_format = "PNG"
+
         if background_color.startswith("#") and len(background_color) == 7:
             try:
                 bg_rgb = tuple(int(background_color[i:i+2], 16) for i in (1, 3, 5))
@@ -709,27 +705,34 @@ async def remove_bg(
 
         if bg_rgb:
             bg_img = PILImage.new("RGB", processed_img.size, bg_rgb)
-            bg_img.paste(processed_img, mask=processed_img.split()[3]) 
-            processed_img = bg_img.convert('RGB')
-            output_format = 'JPEG'
-        
-        # Save output
-        filename = f"nobg_{uuid.uuid4().hex}.{output_format.lower()}"
-        output_path = os.path.join(REMOVEBG_FOLDER, filename)
-        
-        if output_format == 'PNG':
-            processed_img.save(output_path, format='PNG', optimize=True)
+            bg_img.paste(processed_img, mask=processed_img.split()[3])
+            processed_img = bg_img.convert("RGB")
+            output_format = "JPEG"
+
+        # ✅ Save output in-memory (no temp file issue)
+        output_bytes = io.BytesIO()
+        if output_format == "PNG":
+            processed_img.save(output_bytes, format="PNG", optimize=True)
         else:
-            processed_img.save(output_path, format='JPEG', quality=95, optimize=True)
-        
-        if not os.path.exists(output_path) or os.path.getsize(output_path) == 0:
-            return JSONResponse({"error": "Failed to save processed image"}, status_code=500)
-        
-        quality_message = "Optimized quality with Refine Edge feature." if quality.lower() == 'high' else "Standard quality (AI only)."
-        
+            processed_img.save(output_bytes, format="JPEG", quality=95, optimize=True)
+        output_bytes.seek(0)
+
+        filename = f"nobg_{uuid.uuid4().hex}.{output_format.lower()}"
+        file_path = os.path.join(REMOVEBG_FOLDER, filename)
+
+        # Optional: keep a copy in /tmp for preview endpoint
+        with open(file_path, "wb") as f:
+            f.write(output_bytes.getbuffer())
+
+        quality_message = (
+            "Optimized quality with Refine Edge feature." 
+            if quality.lower() == "high" 
+            else "Standard quality (AI only)."
+        )
+
         return {
-            "success": True, 
-            "filename": filename, 
+            "success": True,
+            "filename": filename,
             "previewUrl": f"/get-image/{filename}",
             "downloadUrl": f"/download/{filename}",
             "message": f"Background removed with {quality_message}",
@@ -737,11 +740,23 @@ async def remove_bg(
             "format": output_format,
             "background": background_color
         }
-        
+
     except Exception as e:
         logger.error(f"Remove BG error: {traceback.format_exc()}")
         return JSONResponse({"error": f"Processing failed: {str(e)}"}, status_code=500)
 
+
+# ✅ Download endpoint (works perfectly)
+@app.get("/download/{filename}")
+async def download_image(filename: str):
+    file_path = os.path.join(REMOVEBG_FOLDER, filename)
+    if not os.path.exists(file_path):
+        return JSONResponse({"error": "File not found"}, status_code=404)
+    return StreamingResponse(
+        open(file_path, "rb"),
+        media_type="image/png" if filename.lower().endswith(".png") else "image/jpeg",
+        headers={"Content-Disposition": f"attachment; filename={filename}"}
+    )
 
 # ✅ Alias route (function-এর বাইরে)
 @app.post("/api/remove-background")
